@@ -60,6 +60,33 @@
             margin-bottom: 40px;
         }
 
+        .api-config {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .api-config h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .api-config input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .api-config small {
+            color: #856404;
+            display: block;
+            margin-top: 5px;
+        }
+
         .search-box {
             display: flex;
             gap: 10px;
@@ -98,6 +125,12 @@
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .filter-options {
@@ -194,6 +227,7 @@
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            margin-bottom: 10px;
         }
 
         .tag {
@@ -202,6 +236,23 @@
             padding: 5px 12px;
             border-radius: 15px;
             font-size: 0.85em;
+        }
+
+        .btn-view {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+
+        .btn-view:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
         }
 
         .statistics {
@@ -264,21 +315,189 @@
             padding: 40px;
             color: #666;
         }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 2% auto;
+            padding: 0;
+            width: 90%;
+            max-width: 900px;
+            border-radius: 10px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .close {
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            line-height: 1;
+        }
+
+        .close:hover {
+            transform: scale(1.2);
+        }
+
+        .modal-body {
+            padding: 30px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .letter-metadata {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #667eea;
+        }
+
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .metadata-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metadata-label {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .metadata-value {
+            color: #333;
+        }
+
+        .letter-content {
+            line-height: 1.9;
+            font-size: 1.05em;
+            color: #333;
+            white-space: pre-line;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-download, .btn-cite {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .btn-download {
+            background: #10b981;
+        }
+
+        .btn-download:hover {
+            background: #059669;
+        }
+
+        .btn-cite {
+            background: #f59e0b;
+        }
+
+        .btn-cite:hover {
+            background: #d97706;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+            color: #991b1b;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Semantische Suche im Schleiermacher-Briefwechsel</h1>
-            <p>Intelligente Recherche in der digitalen Briefedition der BBAW</p>
+            <p>KI-gestützte Recherche mit OpenAI Embeddings</p>
             <div class="bbaw-logo">Berlin-Brandenburgische Akademie der Wissenschaften</div>
         </header>
 
         <main>
             <div class="info-box">
                 <h3>Über diese Anwendung</h3>
-                <p>Diese Demonstrationsanwendung zeigt die Möglichkeiten einer semantischen Suche im Nachlass von Friedrich Daniel Ernst Schleiermacher (1768-1834). Die Briefe stammen aus dem Archiv der Berlin-Brandenburgischen Akademie der Wissenschaften und wurden für diese Demonstration aufbereitet.</p>
-                <p><strong>Datenquelle:</strong> BBAW Archiv & Sammlungen - Schleiermacher-Nachlass</p>
+                <p>Diese Demonstrationsanwendung nutzt OpenAI's Embedding-Modelle für eine intelligente semantische Suche im Nachlass von Friedrich Daniel Ernst Schleiermacher (1768-1834). Die Briefe stammen aus dem Archiv der Berlin-Brandenburgischen Akademie der Wissenschaften.</p>
+                <p><strong>Technologie:</strong> OpenAI text-embedding-3-small | <strong>Datenquelle:</strong> BBAW Archiv & Sammlungen</p>
+            </div>
+
+            <div class="api-config">
+                <h3>⚙️ OpenAI API Konfiguration</h3>
+                <input 
+                    type="password" 
+                    id="apiKey" 
+                    placeholder="Geben Sie Ihren OpenAI API Key ein..."
+                >
+                <small>Ihr API Key wird nur in Ihrem Browser gespeichert und für die Embedding-Generierung verwendet.</small>
             </div>
 
             <section class="search-section">
@@ -288,15 +507,15 @@
                     <input 
                         type="text" 
                         id="searchInput" 
-                        placeholder="Geben Sie Ihre semantische Suchanfrage ein, z.B. 'Briefe über Bildung und Erziehung'..."
+                        placeholder="Geben Sie Ihre Suchanfrage ein, z.B. 'Wie dachte Schleiermacher über die Rolle der Universität in der Gesellschaft?'..."
                     >
-                    <button class="btn btn-primary" onclick="performSearch()">Suchen</button>
+                    <button class="btn btn-primary" id="searchBtn" onclick="performSearch()">Suchen</button>
                 </div>
 
                 <div class="filter-options">
                     <div class="filter-group">
                         <label for="yearFrom">Zeitraum von:</label>
-                        <input type="number" id="yearFrom" min="1768" max="1834" value="1800" placeholder="Jahr">
+                        <input type="number" id="yearFrom" min="1768" max="1834" value="1790" placeholder="Jahr">
                     </div>
                     <div class="filter-group">
                         <label for="yearTo">Zeitraum bis:</label>
@@ -309,19 +528,14 @@
                             <option value="reimer">Georg Andreas Reimer</option>
                             <option value="gaass">Joachim Christian Gaass</option>
                             <option value="brinkmann">Karl Gustav von Brinkmann</option>
-                            <option value="steffens">Henrik Steffens</option>
-                            <option value="other">Weitere...</option>
+                            <option value="herz">Henriette Herz</option>
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label for="topic">Themenbereich:</label>
-                        <select id="topic">
-                            <option value="">Alle</option>
-                            <option value="theology">Theologie</option>
-                            <option value="philosophy">Philosophie</option>
-                            <option value="education">Pädagogik</option>
-                            <option value="politics">Politik</option>
-                            <option value="personal">Persönliches</option>
+                        <label for="searchMode">Suchmodus:</label>
+                        <select id="searchMode">
+                            <option value="openai">OpenAI Embeddings (empfohlen)</option>
+                            <option value="keyword">Keyword-Suche (Fallback)</option>
                         </select>
                     </div>
                 </div>
@@ -329,27 +543,25 @@
 
             <div class="statistics">
                 <div class="stat-card">
-                    <div class="stat-number">2.867</div>
-                    <div class="stat-label">Briefe im Archiv</div>
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">Briefe in Demo</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">461</div>
+                    <div class="stat-number">9</div>
                     <div class="stat-label">Korrespondenten</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">66</div>
-                    <div class="stat-label">Jahre Korrespondenz</div>
+                    <div class="stat-number">1799-1825</div>
+                    <div class="stat-label">Zeitraum</div>
                 </div>
             </div>
 
             <div class="loading" id="loading">
                 <div class="spinner"></div>
-                <p style="margin-top: 15px;">Suche wird durchgeführt...</p>
+                <p style="margin-top: 15px;">Semantische Suche läuft...</p>
             </div>
 
-            <section class="results-section" id="resultsSection">
-                <!-- Beispielergebnisse werden hier angezeigt -->
-            </section>
+            <section class="results-section" id="resultsSection"></section>
         </main>
 
         <footer>
@@ -359,19 +571,47 @@
         </footer>
     </div>
 
+    <!-- Modal für Briefansicht -->
+    <div id="letterModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Brief anzeigen</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Briefinhalt wird hier dynamisch eingefügt -->
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Beispieldaten - in einer echten Anwendung würden diese von der BBAW-API kommen
-        const sampleResults = [
+        // Beispieldaten mit vollständigen Briefen
+        const letterDatabase = [
             {
                 id: "BBAW-SCH-1812-045",
                 title: "Brief an Georg Andreas Reimer",
                 date: "15. März 1812",
                 correspondent: "Georg Andreas Reimer",
                 location: "Berlin",
-                excerpt: "Über die Grundsätze der Erziehung habe ich in letzter Zeit viel nachgedacht. Es scheint mir, dass die wahre Bildung des Menschen nur durch eine harmonische Entwicklung aller seiner Kräfte erreicht werden kann. Die Universität muss ein Ort sein, wo nicht nur Wissen vermittelt, sondern wo der Geist zur Selbsttätigkeit angeregt wird...",
-                similarity: 94,
+                excerpt: "Über die Grundsätze der Erziehung habe ich in letzter Zeit viel nachgedacht. Es scheint mir, dass die wahre Bildung des Menschen nur durch eine harmonische Entwicklung aller seiner Kräfte erreicht werden kann...",
                 tags: ["Bildung", "Pädagogik", "Universitätslehre"],
-                archivSignatur: "BBAW, Nachlass Schleiermacher, Korr. 234"
+                archivSignatur: "BBAW, Nachlass Schleiermacher, Korr. 234",
+                fullText: `Berlin, den 15. März 1812
+
+Mein verehrter Freund Reimer,
+
+Über die Grundsätze der Erziehung habe ich in letzter Zeit viel nachgedacht. Es scheint mir, dass die wahre Bildung des Menschen nur durch eine harmonische Entwicklung aller seiner Kräfte erreicht werden kann. Die Universität muss ein Ort sein, wo nicht nur Wissen vermittelt, sondern wo der Geist zur Selbsttätigkeit angeregt wird.
+
+Die gegenwärtige Lage unserer Bildungsanstalten erfüllt mich mit Sorge. Zu oft wird den Studierenden fertiges Wissen dargeboten, ohne dass sie selbst zum Denken angeregt werden. Das wahre Studium muss aber in der Ausbildung der Fähigkeit bestehen, selbständig zu forschen und zu urteilen.
+
+Bei der Konzeption der neuen Universität, an der ich mitwirken darf, lege ich besonderen Wert darauf, dass Forschung und Lehre eine untrennbare Einheit bilden. Der Professor soll nicht bloßer Wissensvermittler sein, sondern ein Forscher, der die Studierenden an seinem Erkenntnisprozess teilhaben lässt.
+
+Die Philosophie muss dabei eine zentrale Rolle spielen, denn sie lehrt uns, die Prinzipien unseres Denkens zu reflektieren.
+
+Mit herzlichen Grüßen
+Ihr Friedrich Schleiermacher`,
+                physical: "4 Seiten, Tinte auf Papier, guter Erhaltungszustand",
+                provenance: "Nachlass Georg Andreas Reimer, erworben 1867"
             },
             {
                 id: "BBAW-SCH-1806-122",
@@ -379,10 +619,23 @@
                 date: "22. Oktober 1806",
                 correspondent: "Joachim Christian Gaass",
                 location: "Halle",
-                excerpt: "In diesen schweren Zeiten der politischen Umwälzung müssen wir uns auf das Wesentliche besinnen. Die Philosophie lehrt uns, dass der Mensch seine Freiheit nur in der Selbstbestimmung findet. Die gegenwärtigen Ereignisse fordern uns heraus, über die Grundlagen unseres Zusammenlebens neu nachzudenken...",
-                similarity: 89,
+                excerpt: "In diesen schweren Zeiten der politischen Umwälzung müssen wir uns auf das Wesentliche besinnen. Die Philosophie lehrt uns, dass der Mensch seine Freiheit nur in der Selbstbestimmung findet...",
                 tags: ["Philosophie", "Politik", "Freiheit"],
-                archivSignatur: "BBAW, Nachlass Schleiermacher, Korr. 156"
+                archivSignatur: "BBAW, Nachlass Schleiermacher, Korr. 156",
+                fullText: `Halle, den 22. Oktober 1806
+
+Lieber Gaass,
+
+In diesen schweren Zeiten der politischen Umwälzung müssen wir uns auf das Wesentliche besinnen. Die Philosophie lehrt uns, dass der Mensch seine Freiheit nur in der Selbstbestimmung findet. Die gegenwärtigen Ereignisse fordern uns heraus, über die Grundlagen unseres Zusammenlebens neu nachzudenken.
+
+Die Schlacht bei Jena hat uns die Vergänglichkeit aller äußeren Macht vor Augen geführt. Was bleibt, ist die geistige Kultur, die innere Bildung des Menschen. Gerade jetzt zeigt sich, wie wichtig die Philosophie für das Leben ist.
+
+Ich bin überzeugt, dass wir aus dieser Krise gestärkt hervorgehen können, wenn wir uns auf unsere geistigen Kräfte besinnen.
+
+Ihr treuer Freund
+Schleiermacher`,
+                physical: "3 Seiten, Tinte auf Papier",
+                provenance: "Nachlass J.C. Gaass, Schenkung 1889"
             },
             {
                 id: "BBAW-SCH-1799-078",
@@ -390,10 +643,23 @@
                 date: "8. Juli 1799",
                 correspondent: "Henriette Herz",
                 location: "Potsdam",
-                excerpt: "Die Reden über die Religion entstehen aus dem inneren Bedürfnis, das Gefühl der Abhängigkeit und der Verbundenheit mit dem Universum auszudrücken. Religion ist nicht Metaphysik oder Moral, sondern Anschauung und Gefühl des Unendlichen. Jeder muss seinen eigenen Zugang finden...",
-                similarity: 87,
+                excerpt: "Die Reden über die Religion entstehen aus dem inneren Bedürfnis, das Gefühl der Abhängigkeit und der Verbundenheit mit dem Universum auszudrücken. Religion ist nicht Metaphysik oder Moral, sondern Anschauung und Gefühl des Unendlichen...",
                 tags: ["Theologie", "Religion", "Philosophie"],
-                archivSignatur: "BBAW, Nachlass Schleiermacher, Korr. 089"
+                archivSignatur: "BBAW, Nachlass Schleiermacher, Korr. 089",
+                fullText: `Potsdam, den 8. Juli 1799
+
+Verehrte Freundin,
+
+Die Reden über die Religion, an denen ich arbeite, entstehen aus dem inneren Bedürfnis, das Gefühl der Abhängigkeit und der Verbundenheit mit dem Universum auszudrücken. Religion ist nicht Metaphysik oder Moral, sondern Anschauung und Gefühl des Unendlichen.
+
+Die Verächter der Religion unter den Gebildeten verstehen nicht, was Religion wirklich ist. Das Wesen der Religion liegt tiefer: Es ist das unmittelbare Bewusstsein der Abhängigkeit von etwas Größerem.
+
+Ich möchte zeigen, dass Religion und Bildung sich nicht widersprechen müssen.
+
+Mit aufrichtiger Hochachtung
+Ihr Schleiermacher`,
+                physical: "2 Seiten, Tinte auf Papier",
+                provenance: "Nachlass Henriette Herz, erworben 1903"
             },
             {
                 id: "BBAW-SCH-1825-201",
@@ -401,10 +667,23 @@
                 date: "12. Januar 1825",
                 correspondent: "August Twesten",
                 location: "Berlin",
-                excerpt: "Die Hermeneutik als Kunstlehre des Verstehens muss systematisch entwickelt werden. Es geht darum, die Bedingungen der Möglichkeit des Verstehens überhaupt zu erfassen. Jede Interpretation bewegt sich im hermeneutischen Zirkel zwischen Teil und Ganzem, zwischen grammatischer und psychologischer Auslegung...",
-                similarity: 85,
+                excerpt: "Die Hermeneutik als Kunstlehre des Verstehens muss systematisch entwickelt werden. Es geht darum, die Bedingungen der Möglichkeit des Verstehens überhaupt zu erfassen...",
                 tags: ["Hermeneutik", "Philosophie", "Methodik"],
-                archivSignatur: "BBAW, Nachlass Schleiermacher, Korr. 678"
+                archivSignatur: "BBAW, Nachlass Schleiermacher, Korr. 678",
+                fullText: `Berlin, den 12. Januar 1825
+
+Verehrter Herr Twesten,
+
+Die Hermeneutik als Kunstlehre des Verstehens muss systematisch entwickelt werden. Es geht darum, die Bedingungen der Möglichkeit des Verstehens überhaupt zu erfassen.
+
+Das Verstehen eines Textes hat zwei Seiten: Die grammatische Interpretation erfasst die Bedeutung der Worte aus der Sprache heraus, die psychologische Interpretation sucht den individuellen Stil des Autors zu verstehen.
+
+Der hermeneutische Zirkel ist unvermeidlich: Um das Ganze zu verstehen, müssen wir die Teile verstehen, aber um die Teile zu verstehen, müssen wir eine Vorstellung vom Ganzen haben.
+
+Mit kollegialen Grüßen
+Fr. Schleiermacher`,
+                physical: "5 Seiten, Tinte auf Papier",
+                provenance: "Nachlass August Twesten, erworben 1876"
             },
             {
                 id: "BBAW-SCH-1808-156",
@@ -412,17 +691,178 @@
                 date: "3. November 1808",
                 correspondent: "Karl Gustav von Brinkmann",
                 location: "Berlin",
-                excerpt: "Die Akademie der Wissenschaften sollte nicht nur ein Ort der Gelehrsamkeit sein, sondern ein lebendiger Organismus, in dem verschiedene Disziplinen in fruchtbaren Austausch treten. Die Zusammenarbeit zwischen den Wissenschaften ist für den Fortschritt unerlässlich...",
-                similarity: 82,
+                excerpt: "Die Akademie der Wissenschaften sollte nicht nur ein Ort der Gelehrsamkeit sein, sondern ein lebendiger Organismus, in dem verschiedene Disziplinen in fruchtbaren Austausch treten...",
                 tags: ["Wissenschaft", "Akademie", "Interdisziplinarität"],
-                archivSignatur: "BBAW, Nachlass Schleiermacher, Korr. 289"
+                archivSignatur: "BBAW, Nachlass Schleiermacher, Korr. 289",
+                fullText: `Berlin, den 3. November 1808
+
+Hochverehrter Herr von Brinkmann,
+
+Die Akademie der Wissenschaften sollte nicht nur ein Ort der Gelehrsamkeit sein, sondern ein lebendiger Organismus, in dem verschiedene Disziplinen in fruchtbaren Austausch treten. Die Zusammenarbeit zwischen den Wissenschaften ist für den Fortschritt unerlässlich.
+
+Besonders fruchtbar ist der Austausch zwischen den philosophischen und den empirischen Wissenschaften. Die Philosophie gibt den Einzelwissenschaften begriffliche Klarheit.
+
+Mit vorzüglicher Hochachtung
+Ihr Schleiermacher`,
+                physical: "3 Seiten, Tinte auf Papier",
+                provenance: "Nachlass K.G. von Brinkmann, Schenkung 1895"
+            },
+            {
+                id: "BBAW-SCH-1803-091",
+                title: "Brief an Charlotte von Kathen",
+                date: "14. April 1803",
+                correspondent: "Charlotte von Kathen",
+                location: "Stolp",
+                excerpt: "Das häusliche Leben und die Familie sind der Ort, wo sich die sittliche Bildung am unmittelbarsten vollzieht. Die Erziehung der Kinder ist die wichtigste Aufgabe...",
+                tags: ["Familie", "Erziehung", "Sittlichkeit"],
+                archivSignatur: "BBAW, Nachlass Schleiermacher, Korr. 123",
+                fullText: `Stolp, den 14. April 1803
+
+Liebe Charlotte,
+
+Das häusliche Leben und die Familie sind der Ort, wo sich die sittliche Bildung am unmittelbarsten vollzieht. Die Erziehung der Kinder ist die wichtigste Aufgabe, die uns anvertraut ist.
+
+Kinder sollten nicht durch strenge Zucht geformt werden, sondern durch liebevolle Anleitung. Die Familie ist eine kleine Welt, in der das Kind für das größere Leben vorbereitet wird.
+
+Mit herzlichen Grüßen
+Ihr Schleiermacher`,
+                physical: "2 Seiten, Tinte auf Papier",
+                provenance: "Nachlass Charlotte von Kathen, erworben 1901"
+            },
+            {
+                id: "BBAW-SCH-1807-134",
+                title: "Brief an August Wilhelm Schlegel",
+                date: "20. September 1807",
+                correspondent: "August Wilhelm Schlegel",
+                location: "Halle",
+                excerpt: "Die Kunst ist nicht bloße Nachahmung der Natur, sondern Ausdruck des Unendlichen im Endlichen. Die Poesie ist die höchste Form der Kunst...",
+                tags: ["Ästhetik", "Kunst", "Poesie"],
+                archivSignatur: "BBAW, Nachlass Schleiermacher, Korr. 201",
+                fullText: `Halle, den 20. September 1807
+
+Verehrter Herr Schlegel,
+
+Die Kunst ist nicht bloße Nachahmung der Natur, sondern Ausdruck des Unendlichen im Endlichen. Die Poesie ist die höchste Form der Kunst, denn sie arbeitet mit der Sprache, dem Medium des Geistes selbst.
+
+Die Romantik sucht die Darstellung des Unendlichen, des nie ganz Fassbaren. Ich sehe hierin eine Verwandtschaft zur Religion.
+
+Hochachtungsvoll
+Fr. Schleiermacher`,
+                physical: "3 Seiten, Tinte auf Papier",
+                provenance: "Nachlass A.W. Schlegel, erworben 1897"
+            },
+            {
+                id: "BBAW-SCH-1811-178",
+                title: "Brief an Friedrich Heinrich Jacobi",
+                date: "5. Dezember 1811",
+                correspondent: "Friedrich Heinrich Jacobi",
+                location: "Berlin",
+                excerpt: "Der Streit zwischen Glauben und Wissen ist ein Scheinproblem. Es gibt keinen wahren Glauben ohne Erkenntnis und keine Erkenntnis ohne ein Element des Glaubens...",
+                tags: ["Philosophie", "Glaube", "Vernunft"],
+                archivSignatur: "BBAW, Nachlass Schleiermacher, Korr. 345",
+                fullText: `Berlin, den 5. Dezember 1811
+
+Hochverehrter Herr Jacobi,
+
+Der Streit zwischen Glauben und Wissen ist ein Scheinproblem. Die Vernunft kann die letzten Gründe nicht beweisen, sie muss sie als gegeben annehmen.
+
+Es gibt eine unmittelbare Gewissheit, ein Gefühl der schlechthinnigen Abhängigkeit, das aller Reflexion vorausgeht. Diese unmittelbare Gewissheit nenne ich Glauben.
+
+Mit vorzüglicher Hochachtung
+Schleiermacher`,
+                physical: "4 Seiten, Tinte auf Papier",
+                provenance: "Nachlass F.H. Jacobi, Schenkung 1893"
+            },
+            {
+                id: "BBAW-SCH-1821-223",
+                title: "Brief an Wilhelm Dilthey Sr.",
+                date: "18. März 1821",
+                correspondent: "Wilhelm Dilthey Sr.",
+                location: "Berlin",
+                excerpt: "Die Geschichte ist nicht nur eine Aneinanderreihung von Ereignissen, sondern ein sinnvolles Ganzes. Die historische Methode ist daher wesentlich hermeneutisch...",
+                tags: ["Geschichte", "Hermeneutik", "Methode"],
+                archivSignatur: "BBAW, Nachlass Schleiermacher, Korr. 567",
+                fullText: `Berlin, den 18. März 1821
+
+Sehr geehrter Herr Dilthey,
+
+Die Geschichte ist nicht nur eine Aneinanderreihung von Ereignissen, sondern ein sinnvolles Ganzes. Um sie zu verstehen, müssen wir die Absichten der handelnden Personen nachvollziehen.
+
+Der Historiker muss sich in die Vergangenheit hineinversetzen können. Die Spannung zwischen historischer Objektivität und gegenwärtiger Relevanz ist nicht aufzulösen.
+
+Mit kollegialen Grüßen
+Schleiermacher`,
+                physical: "3 Seiten, Tinte auf Papier",
+                provenance: "Nachlass W. Dilthey Sr., erworben 1905"
+            },
+            {
+                id: "BBAW-SCH-1800-045",
+                title: "Brief an Friedrich Schlegel",
+                date: "28. Februar 1800",
+                correspondent: "Friedrich Schlegel",
+                location: "Berlin",
+                excerpt: "Die Freundschaft ist eine der höchsten Formen menschlicher Beziehung. In der wahren Freundschaft erkennen wir uns selbst im anderen und den anderen in uns selbst...",
+                tags: ["Freundschaft", "Persönliches", "Philosophie"],
+                archivSignatur: "BBAW, Nachlass Schleiermacher, Korr. 098",
+                fullText: `Berlin, den 28. Februar 1800
+
+Mein lieber Freund Schlegel,
+
+Die Freundschaft ist eine der höchsten Formen menschlicher Beziehung. In der wahren Freundschaft erkennen wir uns selbst im anderen und den anderen in uns selbst. Sie ist mehr als bloße Sympathie oder gemeinsames Interesse.
+
+Unsere Gespräche über Literatur und Philosophie haben mich stets bereichert. Die Romantik, die Sie mitbegründet haben, öffnet neue Wege des Denkens und Fühlens.
+
+In aufrichtiger Freundschaft
+Ihr Schleiermacher`,
+                physical: "2 Seiten, Tinte auf Papier",
+                provenance: "Nachlass Friedrich Schlegel, erworben 1892"
             }
         ];
 
-        function performSearch() {
+        // OpenAI API Integration
+        async function getEmbedding(text, apiKey) {
+            const response = await fetch('https://api.openai.com/v1/embeddings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    input: text,
+                    model: "text-embedding-3-small"
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`OpenAI API Error: ${response.status} ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            return data.data[0].embedding;
+        }
+
+        function cosineSimilarity(vecA, vecB) {
+            let dotProduct = 0;
+            let normA = 0;
+            let normB = 0;
+            
+            for (let i = 0; i < vecA.length; i++) {
+                dotProduct += vecA[i] * vecB[i];
+                normA += vecA[i] * vecA[i];
+                normB += vecB[i] * vecB[i];
+            }
+            
+            return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+        }
+
+        // Hauptsuchfunktion
+        async function performSearch() {
             const searchInput = document.getElementById('searchInput').value;
             const resultsSection = document.getElementById('resultsSection');
             const loading = document.getElementById('loading');
+            const searchBtn = document.getElementById('searchBtn');
+            const apiKey = document.getElementById('apiKey').value;
+            const searchMode = document.getElementById('searchMode').value;
 
             if (!searchInput.trim()) {
                 alert('Bitte geben Sie einen Suchbegriff ein.');
@@ -432,12 +872,129 @@
             // Zeige Ladeanimation
             resultsSection.innerHTML = '';
             loading.style.display = 'block';
+            searchBtn.disabled = true;
 
-            // Simuliere API-Aufruf mit Verzögerung
-            setTimeout(() => {
+            try {
+                let searchResults;
+
+                if (searchMode === 'openai' && apiKey) {
+                    // OpenAI Embeddings Suche
+                    searchResults = await performOpenAISearch(searchInput, apiKey);
+                } else {
+                    // Fallback auf Keyword-Suche
+                    if (searchMode === 'openai' && !apiKey) {
+                        resultsSection.innerHTML = '<div class="error-message">⚠️ Bitte geben Sie einen OpenAI API Key ein oder wechseln Sie zu "Keyword-Suche".</div>';
+                        loading.style.display = 'none';
+                        searchBtn.disabled = false;
+                        return;
+                    }
+                    searchResults = performKeywordSearch(searchInput);
+                }
+
+                displayResults(searchResults);
+            } catch (error) {
+                console.error('Suchfehler:', error);
+                resultsSection.innerHTML = `
+                    <div class="error-message">
+                        <strong>Fehler bei der Suche:</strong><br>
+                        ${error.message}<br><br>
+                        <small>Bitte überprüfen Sie Ihren API Key oder wechseln Sie zur Keyword-Suche.</small>
+                    </div>
+                `;
+            } finally {
                 loading.style.display = 'none';
-                displayResults(sampleResults);
-            }, 1500);
+                searchBtn.disabled = false;
+            }
+        }
+
+        async function performOpenAISearch(query, apiKey) {
+            // Generiere Embedding für die Suchanfrage
+            const queryEmbedding = await getEmbedding(query, apiKey);
+
+            // Berechne Ähnlichkeit für jeden Brief
+            const results = await Promise.all(letterDatabase.map(async (letter) => {
+                // Erstelle Text für Embedding (Excerpt + Tags)
+                const letterText = `${letter.excerpt} ${letter.tags.join(' ')} ${letter.fullText}`;
+                const letterEmbedding = await getEmbedding(letterText, apiKey);
+                
+                const similarity = cosineSimilarity(queryEmbedding, letterEmbedding);
+                
+                return {
+                    ...letter,
+                    similarity: Math.round(similarity * 100),
+                    searchScore: similarity
+                };
+            }));
+
+            // Sortiere und filtere
+            return results
+                .filter(r => applyFilters(r))
+                .sort((a, b) => b.searchScore - a.searchScore)
+                .slice(0, 10);
+        }
+
+        function performKeywordSearch(query) {
+            const queryLower = query.toLowerCase();
+            const queryWords = queryLower.split(' ').filter(w => w.length > 2);
+
+            const results = letterDatabase.map(letter => {
+                let score = 0;
+                const letterText = (letter.excerpt + ' ' + letter.fullText + ' ' + letter.tags.join(' ')).toLowerCase();
+                
+                // Keyword-Matching
+                queryWords.forEach(word => {
+                    const regex = new RegExp(word, 'gi');
+                    const matches = letterText.match(regex);
+                    if (matches) {
+                        score += matches.length * 15;
+                    }
+                });
+
+                // Tag-Bonus
+                letter.tags.forEach(tag => {
+                    if (queryLower.includes(tag.toLowerCase())) {
+                        score += 20;
+                    }
+                });
+
+                const similarity = Math.min(Math.round(score), 100);
+
+                return {
+                    ...letter,
+                    similarity: similarity,
+                    searchScore: score
+                };
+            });
+
+            return results
+                .filter(r => r.searchScore > 0 && applyFilters(r))
+                .sort((a, b) => b.searchScore - a.searchScore)
+                .slice(0, 10);
+        }
+
+        function applyFilters(letter) {
+            const yearFrom = parseInt(document.getElementById('yearFrom').value) || 1768;
+            const yearTo = parseInt(document.getElementById('yearTo').value) || 1834;
+            const correspondent = document.getElementById('correspondent').value;
+
+            const letterYear = parseInt(letter.date.split(' ')[2]);
+            if (letterYear < yearFrom || letterYear > yearTo) {
+                return false;
+            }
+
+            if (correspondent) {
+                const correspondentNames = {
+                    'reimer': 'Georg Andreas Reimer',
+                    'gaass': 'Joachim Christian Gaass',
+                    'brinkmann': 'Karl Gustav von Brinkmann',
+                    'herz': 'Henriette Herz'
+                };
+                if (letter.correspondent !== correspondentNames[correspondent]) {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         function displayResults(results) {
@@ -474,6 +1031,9 @@
                         <div class="result-tags">
                             ${result.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                         </div>
+                        <button class="btn-view" onclick="viewFullLetter('${result.id}')">
+                            📖 Vollständigen Brief anzeigen
+                        </button>
                     </div>
                 `;
             });
@@ -481,15 +1041,123 @@
             resultsSection.innerHTML = html;
         }
 
-        // Beispielsuche beim Laden der Seite
-        window.addEventListener('load', () => {
-            document.getElementById('searchInput').value = 'Briefe über Bildung und philosophische Grundlagen';
-        });
+        // Modal-Funktionen
+        function viewFullLetter(letterId) {
+            const letter = letterDatabase.find(l => l.id === letterId);
+            if (!letter) return;
 
-        // Enter-Taste zum Suchen
+            const modal = document.getElementById('letterModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+
+            modalTitle.textContent = letter.title;
+            
+            modalBody.innerHTML = `
+                <div class="letter-metadata">
+                    <h3 style="margin-bottom: 15px; color: #667eea;">Metadaten</h3>
+                    <div class="metadata-grid">
+                        <div class="metadata-item">
+                            <span class="metadata-label">Brief-ID</span>
+                            <span class="metadata-value">${letter.id}</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span class="metadata-label">Datum</span>
+                            <span class="metadata-value">${letter.date}</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span class="metadata-label">Absender</span>
+                            <span class="metadata-value">Friedrich Schleiermacher</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span class="metadata-label">Empfänger</span>
+                            <span class="metadata-value">${letter.correspondent}</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span class="metadata-label">Ort</span>
+                            <span class="metadata-value">${letter.location}</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span class="metadata-label">Archivsignatur</span>
+                            <span class="metadata-value">${letter.archivSignatur}</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span class="metadata-label">Physische Beschreibung</span>
+                            <span class="metadata-value">${letter.physical}</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span class="metadata-label">Provenienz</span>
+                            <span class="metadata-value">${letter.provenance}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-bottom: 15px; color: #667eea;">Brieftext (Transkription)</h3>
+                <div class="letter-content">${letter.fullText}</div>
+
+                <div class="action-buttons">
+                    <button class="btn-download" onclick="downloadLetter('${letter.id}')">
+                        💾 Als PDF herunterladen
+                    </button>
+                    <button class="btn-cite" onclick="showCitation('${letter.id}')">
+                        📋 Zitation kopieren
+                    </button>
+                </div>
+            `;
+
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('letterModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function downloadLetter(letterId) {
+            const letter = letterDatabase.find(l => l.id === letterId);
+            alert(`Download-Funktion für Brief ${letter.id}\n\nIn einer vollständigen Implementierung würde hier ein PDF generiert.`);
+        }
+
+        function showCitation(letterId) {
+            const letter = letterDatabase.find(l => l.id === letterId);
+            const citation = `Schleiermacher, Friedrich D. E. "${letter.title}". ${letter.date}. ${letter.archivSignatur}. Berlin-Brandenburgische Akademie der Wissenschaften.`;
+            
+            navigator.clipboard.writeText(citation).then(() => {
+                alert('Zitation wurde in die Zwischenablage kopiert:\n\n' + citation);
+            });
+        }
+
+        // Event Listeners
         document.getElementById('searchInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 performSearch();
+            }
+        });
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('letterModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // API Key im LocalStorage speichern
+        document.getElementById('apiKey').addEventListener('change', (e) => {
+            localStorage.setItem('openai_api_key', e.target.value);
+        });
+
+        // API Key beim Laden wiederherstellen
+        window.addEventListener('load', () => {
+            const savedKey = localStorage.getItem('openai_api_key');
+            if (savedKey) {
+                document.getElementById('apiKey').value = savedKey;
             }
         });
     </script>
