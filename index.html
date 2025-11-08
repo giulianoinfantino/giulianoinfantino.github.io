@@ -872,20 +872,27 @@ Ihr Schleiermacher`,
             // Alternative Methode: Nutze Claude direkt um Relevanz zu bewerten
             const letterSummaries = letters.map(l => ({
                 id: l.id,
-                summary: `${l.title}: ${l.excerpt.substring(0, 200)}...`
+                title: l.title,
+                summary: `${l.excerpt.substring(0, 150)}...`
             }));
             
-            const prompt = `Analysiere folgende historische Briefe und bewerte ihre Relevanz für die Suchanfrage auf einer Skala von 0-100.
+            const prompt = `Du bist ein Experte für historische Briefanalyse. Bewerte die Relevanz folgender Briefe für die gegebene Suchanfrage.
 
 Suchanfrage: "${query}"
 
-Briefe:
-${letterSummaries.map((l, i) => `${i + 1}. ${l.summary}`).join('\n\n')}
+Briefe von Friedrich Schleiermacher:
+${letterSummaries.map((l, i) => `${i + 1}. ID: ${l.id}
+   Titel: ${l.title}
+   Auszug: ${l.summary}`).join('\n\n')}
 
-Antworte NUR mit einem JSON-Array von Objekten im Format: [{"id": "BRIEF-ID", "score": ZAHL}]
-Sortiere nach Relevanz (höchster Score zuerst).`;
+WICHTIG: Antworte ausschließlich mit einem gültigen JSON-Array. Jedes Objekt muss die Brief-ID und einen Relevanz-Score (0-100) enthalten.
+
+Format: [{"id": "${letterSummaries[0].id}", "score": 85}, {"id": "${letterSummaries[1].id}", "score": 70}, ...]
+
+Bewerte alle ${letters.length} Briefe. Gib hohe Scores (70-100) für sehr relevante, mittlere Scores (40-69) für teilweise relevante, und niedrige Scores (0-39) für wenig relevante Briefe.`;
 
             try {
+                console.log('Sende Anfrage an Claude...');
                 const response = await fetch('https://api.anthropic.com/v1/messages', {
                     method: 'POST',
                     headers: {
@@ -895,7 +902,7 @@ Sortiere nach Relevanz (höchster Score zuerst).`;
                     },
                     body: JSON.stringify({
                         model: 'claude-3-5-sonnet-20241022',
-                        max_tokens: 1024,
+                        max_tokens: 2048,
                         messages: [{
                             role: 'user',
                             content: prompt
@@ -905,19 +912,39 @@ Sortiere nach Relevanz (höchster Score zuerst).`;
 
                 if (!response.ok) {
                     const errorData = await response.json().catch(() => ({}));
+                    console.error('Anthropic API Fehler:', errorData);
                     throw new Error(`Anthropic API Error ${response.status}: ${errorData.error?.message || response.statusText}`);
                 }
 
                 const data = await response.json();
                 const resultText = data.content[0].text;
+                console.log('Claude Antwort:', resultText);
                 
-                // Extrahiere JSON aus der Antwort
-                const jsonMatch = resultText.match(/\[[\s\S]*\]/);
-                if (jsonMatch) {
-                    return JSON.parse(jsonMatch[0]);
+                // Extrahiere JSON aus der Antwort - flexibler Ansatz
+                let jsonData;
+                
+                // Versuche direktes Parsen
+                try {
+                    jsonData = JSON.parse(resultText);
+                } catch (e) {
+                    // Falls das fehlschlägt, suche nach JSON im Text
+                    const jsonMatch = resultText.match(/\[\s*\{[\s\S]*?\}\s*\]/);
+                    if (jsonMatch) {
+                        jsonData = JSON.parse(jsonMatch[0]);
+                    } else {
+                        console.error('Konnte kein JSON finden in:', resultText);
+                        throw new Error('Claude hat kein gültiges JSON zurückgegeben. Antwort: ' + resultText.substring(0, 200));
+                    }
                 }
                 
-                throw new Error('Konnte Ergebnisse nicht parsen');
+                console.log('Geparste Scores:', jsonData);
+                
+                // Validiere die Daten
+                if (!Array.isArray(jsonData) || jsonData.length === 0) {
+                    throw new Error('Ungültiges Datenformat von Claude erhalten');
+                }
+                
+                return jsonData;
             } catch (error) {
                 console.error('Anthropic API Fehler:', error);
                 throw error;
@@ -1033,12 +1060,16 @@ Sortiere nach Relevanz (höchster Score zuerst).`;
         async function performAISearch(query, apiKey, provider) {
             if (provider === 'anthropic') {
                 // Nutze Claude direkt für semantische Bewertung
+                console.log('Starte Anthropic Suche für:', query);
                 const scores = await getAnthropicSemanticSearch(query, letterDatabase, apiKey);
+                console.log('Erhaltene Scores:', scores);
                 
                 // Mappe Scores zurück zu den Briefen
                 const results = letterDatabase.map(letter => {
                     const scoreObj = scores.find(s => s.id === letter.id);
                     const score = scoreObj ? scoreObj.score : 0;
+                    
+                    console.log(`Brief ${letter.id}: Score ${score}`);
                     
                     return {
                         ...letter,
@@ -1047,10 +1078,20 @@ Sortiere nach Relevanz (höchster Score zuerst).`;
                     };
                 });
                 
-                return results
-                    .filter(r => r.similarity > 0 && applyFilters(r))
+                console.log('Alle Ergebnisse vor Filter:', results.map(r => ({id: r.id, score: r.similarity})));
+                
+                const filtered = results
+                    .filter(r => {
+                        const passes = r.similarity > 0 && applyFilters(r);
+                        console.log(`Brief ${r.id}: similarity=${r.similarity}, passes=${passes}`);
+                        return passes;
+                    })
                     .sort((a, b) => b.similarity - a.similarity)
                     .slice(0, 10);
+                
+                console.log('Gefilterte Ergebnisse:', filtered.length);
+                
+                return filtered;
             } else {
                 // OpenAI Embeddings-basierte Suche
                 const queryEmbedding = await getEmbedding(query, apiKey, provider);
