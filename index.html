@@ -120,30 +120,30 @@
       section{ break-inside: avoid }
     }
 
-   .about-flex {
+.about-flex {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   gap: 28px;
 }
 
+/* Force a small, tidy portrait size */
 .about-flex .portrait {
-  flex: 0 0 180px;
-  border-radius: 12px;
-  object-fit: cover;
+  width: 140px;          /* adjust to taste (e.g., 120–180px) */
+  height: 140px;         /* keeps it square */
+  aspect-ratio: 1 / 1;   /* modern safety net */
+  object-fit: cover;     /* crop instead of squish */
+  border-radius: 12px;   /* or 50% for a circle */
   border: 1px solid var(--rule);
+  display: block;
+  flex: 0 0 auto;        /* don't let flexbox stretch it */
 }
 
 @media (max-width: 640px) {
-  .about-flex {
-    flex-direction: column;
-    align-items: center;
-  }
-  .about-flex .portrait {
-    width: 60%;
-    max-width: 220px;
-  }
-} 
+  .about-flex { flex-direction: column; align-items: center; }
+  .about-flex .portrait { width: 60%; max-width: 220px; height: auto; }
+}
+
   </style>
 </head>
 <body>
@@ -172,22 +172,26 @@
 
     <main class="spacious">
       <!-- About -->
-      <section id="about">
-          <div class="about-flex">
-    <img src="https://github.com/giulianoinfantino/giulianoinfantino/blob/main/profilfoto_neu.png?raw=true" alt="Portrait of Giuliano Infantino" class="portrait" />
-
-        <div class="kicker">About</div>
-        <p class="lead">
-          Recently, I was a Visiting Assistant in Research at Yale University and a Visiting Research Student at Stanford University.
-          Since 2023, I have been a Ph.D. student at the University of Stuttgart, where I work on the relationship between thought and nature in Hegel’s philosophy.
-          Previously, I studied philosophy, classics, German, and comparative literature at the Universities of Cologne and Bonn.
-        </p>
-        <p><strong>Areas of Competence.</strong> Metaphysics and Philosophy of Nature (Kant, Hegel).</p>
-        <p><strong>Areas of Interest.</strong> Philosophy of Mind (Theories of Rationality, Empirical Knowledge), Philosophy of Culture (Cassirer), Meta-Ethics (Kant), Applied Ethics (Children’s suffrage).</p>
-        <div aria-label="keywords">
-          <span class="pill">Hegel</span><span class="pill">Kant</span><span class="pill">Modality</span><span class="pill">Logic</span><span class="pill">Nature</span>
-        </div>
-      </section>
+<section id="about">
+  <div class="about-flex">
+    <img
+      src="https://github.com/giulianoinfantino/giulianoinfantino/blob/main/profilfoto_neu.png?raw=true"
+      alt="Portrait of Giuliano Infantino"
+      class="portrait"
+      width="160" height="160"
+      loading="lazy" decoding="async"
+    />
+    <div>
+      <div class="kicker">About</div>
+      <p class="lead">Recently, I was a Visiting Assistant in Research at Yale University …</p>
+      <p><strong>Areas of Competence.</strong> …</p>
+      <p><strong>Areas of Interest.</strong> …</p>
+      <div aria-label="keywords">
+        <span class="pill">Hegel</span><span class="pill">Kant</span>…
+      </div>
+    </div>
+  </div>
+</section>
 
       <!-- Research -->
       <section id="research" class="section-break">
