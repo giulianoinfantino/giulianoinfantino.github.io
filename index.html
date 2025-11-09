@@ -123,26 +123,22 @@
 .about-flex {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column; /* stack text over image */
   align-items: flex-start;
   gap: 28px;
 }
 
-/* Force a small, tidy portrait size */
 .about-flex .portrait {
-  width: 240px;          /* adjust to taste (e.g., 120–180px) */
-  height: 240px;         /* keeps it square */
-  aspect-ratio: 1 / 1;   /* modern safety net */
-  object-fit: cover;     /* crop instead of squish */
-  border-radius: 12px;   /* or 50% for a circle */
+  width: 240px;
+  height: 240px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 12px;
   border: 1px solid var(--rule);
   display: block;
-  flex: 0 0 auto;        /* don't let flexbox stretch it */
+  margin-top: 8px; /* small gap below the text */
 }
 
-@media (max-width: 640px) {
-  .about-flex { flex-direction: column; align-items: center; }
-  .about-flex .portrait { width: 60%; max-width: 220px; height: auto; }
-}
 
   </style>
 </head>
